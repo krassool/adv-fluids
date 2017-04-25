@@ -93,5 +93,18 @@ axis equal  ; axis([-2 2 -2 2]) ;  h = colorbar ;
 xlabel(h,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
-% quivers(xr(:,100), yr(:,100), ((xr(:,101)-xr(:,100))/h), ((yr(:,101)-yr(:,100))/h) ... 
-%     ,0.5,1,'m/s','k');
+
+quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
+
+[xdl,ydl] = find(xp == -2);
+
+dl = [xdl(1:50:end-1),ydl(1:50:end-1)]
+ud = u_hat_inf(dl);
+vd = v_hat(dl);
+
+size(xp(dl))
+size(yp(dl))
+size(ud)
+size(vd)
+
+qv_scale = quivers(xp(dl),yp(dl),ud,vd, .5 , 1 , 'm/s' , 'k')
