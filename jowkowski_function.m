@@ -1,11 +1,10 @@
-function airfoil_panels = jowkowski_function(alpha_deg)
+function clipped_panels = jowkowski_function(alpha_deg)
 
 %% set initial conditions
 a=1;
 c=0.95;
 x_s=-0.04875;
 y_s=0.05*i;
-alpha_deg=04; %degrees
 
 %% create physical variables
 alpha=alpha_deg/180*pi %angle of attack in radians
@@ -34,24 +33,20 @@ w1=w0+c^2./w0;
 
 w2=w1*exp(-alpha*i);
 
+airfoil_panels=[real(w2);imag(w2)].';
+n=length(airfoil_panels);
+all_panels = zeros(n,4);
 
-figure
-plot(real(w2),imag(w2),'g.')
-axis([-5 5 -3 3])
-daspect([1 1 1])
+for j=1:n
+    if j==n % at the end, replace with the first ones
+        all_panels(j,:) = [airfoil_panels(j,:),airfoil_panels(1,:)];
+    else
+        all_panels(j,:) = [airfoil_panels(j,:),airfoil_panels(j+1,:)];
+    end
+end
 
-airfoil_panels=[real(w2);imag(w2)];
-
-
-[val ind]=max(airfoil_panels,[],2);
-
-% for i=1:n
-%     if i==n % at the end, replace with the first ones
-%         all_panels(i,:) = [new_panels(i,:),new_panels(1,:)];
-%     else
-%         all_panels(i,:) = [new_panels(i,:),new_panels(i+1,:)];
-%     end
-% end
-
+flip_panels=flip(all_panels);
+sorted_panels=circshift(flip_panels,-1);
+clipped_panels=sorted_panels(1:end-1,:);
 
 end
