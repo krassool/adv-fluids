@@ -50,3 +50,4 @@ plot(real(w2),imag(w2),'g.')
 axis([-5 5 -3 3])
 daspect([1 1 1])
 
+airfoil_panels=[real(w2),imag(w2)];
