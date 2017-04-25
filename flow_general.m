@@ -21,11 +21,6 @@ for i = 1:n
     
     % Update RK4 estimate for next step
     state(:,i+1) = state(:,i) + (h/6)*(k1+2*k2+2*k3+k4);
-    
-%     % Check for singularity
-%     if sing_check(state(:,i), (h/6)*(k1+2*k2+2*k3+k4), q_all) == 1
-%         state(:,i+1) = state(:,i);
-%     end
 end
 
 function state_derivative = get_velocities( state , q , panels , u_inf)
@@ -46,19 +41,3 @@ end
 u = u+u_inf ;
 
 state_derivative = [u ; v]; 
-
-% function is_singularity = sing_check( state, state_derivative, c )
-% 
-% % Unpack constants
-% ls = c(3); le = c(4);
-% 
-% % Define singularity locations
-% singularity = [0 ls; 0 le; 0 -ls; 0 -le];
-% 
-% is_singularity = 0;
-% % If the vector of the velocity is greater than distance to the singularity 
-% for i = 1:length(singularity(:,1))
-%     if norm(state.' - singularity(i,:)) < norm(state_derivative)
-%         is_singularity = 1;
-%     end
-% end

@@ -84,7 +84,7 @@ time_streams = toc
 
 figure ; hold on ;
 
-Xi=[panels(:,1),panels(:,3)]; % end?points of panel j in x and y
+Xi=[panels(:,1),panels(:,3)]; % endpoints of panel j in x and y
 Yi=[panels(:,2),panels(:,4)];
 
 % Plot approximated cylinder with 
