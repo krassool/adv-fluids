@@ -8,8 +8,8 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-U_inf = 1 ;
-n_pan = 4 ; % Number of panels to use
+U_inf = 3 ;
+n_pan = 6 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
 % panels = create8pan
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
@@ -42,6 +42,7 @@ q = I\V_inf_i % Solve for source strength densities (q)
 tic
 
 %midpoint matrix
+panels_points = n_panel_circle_soft(n_pan,1.2) 
 Xmj=0.5*(panels(:,1)+panels(:,3))
 Ymj=0.5*(panels(:,2)+panels(:,4)) 
 
@@ -74,7 +75,7 @@ time_pattern = toc
 %% Calculate Cp
 
 U_c_u=u_hat_surf + U_inf*cos(2*pi-Phi_i);
-U_c_v=v_hat_surf + V_inf_i;
+U_c_v=v_hat_surf + V_inf_i.*cos(2*pi-Phi_i);
 quiver(Xmj,Ymj,U_c_u,U_c_v);
 
 

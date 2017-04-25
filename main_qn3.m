@@ -8,8 +8,8 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-U_inf = 3 ;
-n_pan = 6 ; % Number of panels to use
+U_inf = 1 ;
+n_pan = 8 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
 % panels = create8pan
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
@@ -42,8 +42,10 @@ q = I\V_inf_i % Solve for source strength densities (q)
 tic
 
 %midpoint matrix
-Xmj=0.5*(panels(:,1)+panels(:,3))
-Ymj=0.5*(panels(:,2)+panels(:,4)) 
+r_mid=1.001;
+panels_points = n_panel_circle_soft(n_pan,r_mid) 
+Xmj=0.5*(panels_points(:,1)+panels_points(:,3))
+Ymj=0.5*(panels_points(:,2)+panels_points(:,4)) 
 
 mesh_res = 0.01 ; % Meshgrid density (resolution for results)
 [xp, yp] = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 );
@@ -52,7 +54,7 @@ mesh_res = 0.01 ; % Meshgrid density (resolution for results)
 % This next loop runs through each of the panels and sums the velocity
 % contribution at each point in space as a result of the panels.   
 
-for n=1:n_pan ; % for each panel
+for n=1:n_pan  % for each panel
     
     Xj=[panels(n,1),panels(n,3)];
     Yj=[panels(n,2),panels(n,4)];
@@ -73,8 +75,14 @@ time_pattern = toc
 
 %% Calculate Cp
 
-U_c_u=u_hat_surf + U_inf*cos(2*pi-Phi_i);
-U_c_v=v_hat_surf + V_inf_i.*cos(2*pi-Phi_i);
+%this is in XXX coordainate frame.
+U_c_u=u_hat_surf + U_inf;
+U_c_v=v_hat_surf;% + V_inf_i ;
+
+U_c=sqrt(U_c_u.^2+U_c_v.^2);
+
+Cp=1-(U_c/U_inf).^2;
+
 quiver(Xmj,Ymj,U_c_u,U_c_v);
 
 
