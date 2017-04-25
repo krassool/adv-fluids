@@ -8,8 +8,8 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-U_inf = 1 ;
-n_pan = 8 ; % Number of panels to use
+U_inf = 3 ;
+n_pan = 6 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
 % panels = create8pan
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
@@ -40,21 +40,17 @@ q = I\V_inf_i % Solve for source strength densities (q)
 
 %% Find veloctities
 tic
+
+%midpoint matrix
+Xmj=0.5*(panels(:,1)+panels(:,3))
+Ymj=0.5*(panels(:,2)+panels(:,4)) 
+
 mesh_res = 0.01 ; % Meshgrid density (resolution for results)
 [xp, yp] = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 );
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
-
+[u_hat_surf,v_hat_surf]=deal(zeros(size(Xmj))) ; % Initialise midpoint velocity directions 
 % This next loop runs through each of the panels and sums the velocity
-% contribution at each point in space as a result of the panels.
-
-%midpoint matrix
-Xmj_set=0.5*(panels(:,1)+panels(:,3))
-Ymj_set=0.5*(panels(:,2)+panels(:,4))
-
-    Xmj = 0.5*(Xmj_set(1) + Xmj_set(2)); % midpoints
-    Ymj = 0.5*(Ymj_set(1) + Ymj_set(2));
-    
-    
+% contribution at each point in space as a result of the panels.   
 
 for n=1:n_pan ; % for each panel
     
@@ -66,16 +62,21 @@ for n=1:n_pan ; % for each panel
     u_hat=u_hat + u;
     v_hat=v_hat + v;
     
-    
-    Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
-    Ymj = 0.5*(Yj(1) + Yj(2));
-    
     [u_surf,v_surf] = flow_field_cyl_1_0( Xj , Yj , q(n) , Xmj , Ymj );
     
+    u_hat_surf=u_hat_surf + u_surf;
+    v_hat_surf=v_hat_surf + v_surf;
 end
+
 u_hat_inf = u_hat + U_inf;
 time_pattern = toc
+
 %% Calculate Cp
+
+U_c_u=u_hat_surf + U_inf*cos(2*pi-Phi_i);
+U_c_v=v_hat_surf + V_inf_i.*cos(2*pi-Phi_i);
+quiver(Xmj,Ymj,U_c_u,U_c_v);
+
 
 
 %% Plot panel estimation
