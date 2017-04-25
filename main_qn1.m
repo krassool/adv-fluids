@@ -70,7 +70,7 @@ fill(panels(:,1),panels(:,2),[255 105 180]./256)
 
 % Set up simulation conditions
 t0   = 0     ; % Initial time
-tf   = 3.00  ; % Final time
+tf   = 6.00  ; % Final time
 h    = 0.01  ; % Step size
 
 y_range = (-2:.25:2).';
@@ -88,7 +88,8 @@ time_streams = toc
 % Plot results and make pretty
 hold on ;  plot(xr.', yr.', 'b') ;
 quiver(xr(:,1), yr(:,1), xr(:,2)-xr(:,1), yr(:,2)-yr(:,1));
-axis equal  ; %axis([-2 2 -2 2])
-axis([-4 4 -4 4])
-xlabel('x (m)') ; ylabel('y (m)') ; legend('Streamlines')   ;
-title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ');
+axis equal  ; axis([-2 2 -2 2]) ;  colorbar ; 
+% axis([-4 4 -4 4])
+xlabel('x (m)') ; ylabel('y (m)') ; legend('Streamlines')    ;
+
+title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;

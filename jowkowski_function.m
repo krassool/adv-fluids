@@ -1,4 +1,4 @@
-function clipped_panels = jowkowski_function(alpha_deg)
+  function sorted_panels = jowkowski_function(alpha_deg)
 
 %% set initial conditions
 a=1;
@@ -46,7 +46,14 @@ for j=1:n
 end
 
 flip_panels=flip(all_panels);
-sorted_panels=circshift(flip_panels,-1);
-clipped_panels=sorted_panels(1:end-1,:);
+sorted_panels=circshift(flip_panels,-2);
+
+% figure ; hold on ;
+% for p=1:n
+%    Xj = [clipped_panels(p,1),clipped_panels(p,3)]
+%    Yj = [clipped_panels(p,2),clipped_panels(p,4)]
+%    plot(Xj,Yj,'-b','LineWidth', 2.5)
+%    pause
+% end
 
 end

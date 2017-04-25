@@ -45,7 +45,7 @@ for n  = 1:length(panels)
 end
 u = u+u_inf ;
 
-state_derivative = [u ; -v]; 
+state_derivative = [u ; v]; 
 
 % function is_singularity = sing_check( state, state_derivative, c )
 % 
