@@ -11,6 +11,10 @@ clc , clear , close all %, format bank
 U_inf = 1 ;
 n_pan = 8 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
+
+%streamline solution constants
+k=pi*U_inf;
+
 % panels = create8pan
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
 
@@ -111,6 +115,7 @@ c = [n,q.']   ; % Pack up concstants matrix
 
 % Calculate streamlines in same fashion as fluids 1 
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
+[xr_s, yr_s] = approx_streamline2(xs, ys, tf-t0, h, @flow_general_streamline , k , panels, U_inf);
 time_streams = toc
 %% Plotting fucntions
 % Plot results and make pretty
