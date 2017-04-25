@@ -40,16 +40,23 @@ plot(real(w2),imag(w2),'g.')
 axis([-5 5 -3 3])
 daspect([1 1 1])
 
-airfoil_panels=[real(w2);imag(w2)];
+airfoil_panels=[real(w2);imag(w2)].';
 
+num=101;
+temp_panels=airfoil_panels(1:num,:)
+plot(temp_panels(:,1)',temp_panels(:,2)')
+
+n=length(airfoil_panels);
+all_panels = zeros(n,4);
 
 for i=1:n
     if i==n % at the end, replace with the first ones
-        all_panels(i,:) = [new_panels(i,:),new_panels(1,:)];
+        all_panels(i,:) = [airfoil_panels(i,:),airfoil_panels(1,:)];
     else
-        all_panels(i,:) = [new_panels(i,:),new_panels(i+1,:)];
+        all_panels(i,:) = [airfoil_panels(i,:),airfoil_panels(i+1,:)];
     end
 end
 
+flip(all_panels
 
 end

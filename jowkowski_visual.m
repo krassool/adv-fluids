@@ -6,7 +6,7 @@ a=1;
 c=0.95;
 x_s=-0.04875;
 y_s=0.05*i;
-alpha_deg=04; %degrees
+alpha_deg=20; %degrees
 
 
 %% create physical variables
