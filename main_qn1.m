@@ -82,14 +82,11 @@ ys = ic0(:,2) ;
 c = [n,q.']   ; % Pack up concstants matrix 
 
 % Calculate streamlines in same fashion as fluids 1 
-tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow1a, c);
+tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels);
 time_streams = toc
+%% Plotting fucntions
 % Plot results and make pretty
-hold on ;  plot(xr.', yr.', 'b');
- 
-% Nicer quiver fn developed by Andrew Roberts, 2010
-ncquiverref(xr(:,1), yr(:,1), xr(:,2)-xr(:,1), yr(:,2)-yr(:,1), ... 
-    'm/s','max',1,'col',cont);
+hold on ;  plot(xr.', yr.', 'b') ;
 quiver(xr(:,1), yr(:,1), xr(:,2)-xr(:,1), yr(:,2)-yr(:,1));
 axis equal  ; %axis([-2 2 -2 2])
 axis([-4 4 -4 4])
