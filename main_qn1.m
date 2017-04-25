@@ -35,8 +35,7 @@ end
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 
 V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
-
-q = I\V_inf_i % Solve for source strength densities (q)
+q = I\V_inf_i                      % Solve for source strength densities (q)
 
 %% Find veloctities
 tic
@@ -59,6 +58,7 @@ for n=1:n_pan ; % for each panel
 end
 u_hat_inf = u_hat + U_inf;
 time_pattern = toc
+
 %% Plot panel estimation
 
 h = pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ;
@@ -84,12 +84,10 @@ c = [n,q.']   ; % Pack up concstants matrix
 % Calculate streamlines in same fashion as fluids 1 
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
 time_streams = toc
-%% Plotting fucntions
-% Plot results and make pretty
+%% Final plot of results and make pretty
 hold on ;  plot(xr.', yr.', 'b') ;
 quiver(xr(:,1), yr(:,1), xr(:,2)-xr(:,1), yr(:,2)-yr(:,1));
-axis equal  ; axis([-2 2 -2 2]) ;  colorbar ; 
-% axis([-4 4 -4 4])
-xlabel('x (m)') ; ylabel('y (m)') ; legend('Streamlines')    ;
-
+axis equal  ; axis([-2 2 -2 2]) ;  h = colorbar ;
+xlabel(h,'m/s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
+legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
