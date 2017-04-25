@@ -39,7 +39,7 @@ V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
 q = I\V_inf_i % Solve for source strength densities (q)
 
 %% Find veloctities
-
+tic
 mesh_res = 0.01 ; % Meshgrid density (resolution for results)
 [xp, yp] = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 );
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
@@ -58,7 +58,7 @@ for n=1:n_pan ; % for each panel
     v_hat=v_hat + v;
 end
 u_hat_inf = u_hat + U_inf;
-
+time_pattern = toc
 %% Plot panel estimation
 
 h = pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ;
@@ -74,17 +74,16 @@ t0   = 0     ; % Initial time
 tf   = 3.00  ; % Final time
 h    = 0.01  ; % Step size
 
-seed = 15    ; % Seed density for streamlines
-ic0  = [ -2*ones(seed,1) , linspace(-2,2,seed).' ];
+y_range = (-2:.25:2).';
+ic0  = [ -3*ones(length(y_range),1) , y_range ];
 
 % Initial conditions for streamlines
 xs = ic0(:,1) ;
 ys = ic0(:,2) ;
-
-c = [n,q.']; % Pack up concstants matrix 
+c = [n,q.']   ; % Pack up concstants matrix 
 
 % Calculate streamlines in same fashion as fluids 1 
-[xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow1a, c );
+[xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow1a, c);
 
 % Plot results and make pretty
 hold on ;  plot(xr.', yr.', 'b');

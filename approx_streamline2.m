@@ -1,4 +1,3 @@
-% William Page (587000) - Mischka Kamener (539030) ;
 % William Page (587000) - Kevin Rassool (xxxxxx) ;
 % Semester 2 2015 - University of Melbourne        ; Started:     21/4/17
 % MCEN90018 - Advanced Fluid Dynamics              ; Last Edited: 29/4/17

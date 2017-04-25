@@ -17,7 +17,7 @@ for i = 1:n
     k1 = get_velocities(state(:,i), c);
     k2 = get_velocities(state(:,i) + (h/2)*k1, c);
     k3 = get_velocities(state(:,i) + (h/2)*k2, c);
-    k4 = get_velocities(state(:,i) + h*k3, c);
+    k4 = get_velocities(state(:,i) +  h*k3   , c);
     
     % Update RK4 estimate for next step
     state(:,i+1) = state(:,i) + (h/6)*(k1+2*k2+2*k3+k4);
@@ -34,7 +34,7 @@ n_p = c(1);
 q = c(2:1+n_p);
 
 panels   = n_panel_circle(n_p) ; % re-define panels
-x = state(1); y = state(2); % Previous state definition
+x = state(1) ; y = state(2); % Previous state definition
 
 % Get velocity contributions from each panel
 [u,v] = deal(0);

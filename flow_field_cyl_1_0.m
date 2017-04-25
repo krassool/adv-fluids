@@ -1,7 +1,5 @@
 function [u,v] = flow_field_cyl_1_0(Xj,Yj,q,xp,yp)
 
-% make a mesh of x and y positions
-
 Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
 Ymj = 0.5*(Yj(1) + Yj(2));
 % equation (13)
@@ -24,5 +22,4 @@ uprime = (q./(2*pi)).*((-log((y0p.^2 + ((S.^2)/4) - (S.*x0p) + x0p.^2))./2) ...
 % equations (21) and (22)
 v = vprime.*cos(Phi) + uprime.*sin(Phi);
 u = uprime.*cos(Phi) - vprime.*sin(Phi);
-
 end
