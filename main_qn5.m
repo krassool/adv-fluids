@@ -10,7 +10,7 @@ clc , clear , close all %, format bank
 %% Create the panels and find the influsence co-efficients 
 
 %create jowkowski panels
-aoa=20; %angle of attack in degrees
+aoa=0; %angle of attack in degrees
 panels = jowkowski_function(aoa);
 % panels = create8pan
 n_pan=length(panels);
@@ -85,7 +85,7 @@ ys = ic0(:,2) ;
 c = [n,q.']   ; % Pack up concstants matrix 
 
 % Calculate streamlines in same fashion as fluids 1 
-tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels);
+tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels,U_inf);
 time_streams = toc
 % Plot results and make pretty
 hold on ;  plot(xr.', yr.', 'b');

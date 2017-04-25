@@ -11,9 +11,9 @@ t = linspace(0,2*pi,n+1);
 x = cos(t+pi/n);
 y = sin(t+pi/n);
 
-panels = [x.',y.'];
-new_order  = [flip(1:floor(n/2)+1), flip(floor(n/2)+2:length(1:n))];
-new_panels = panels(new_order,1:2);
+new_panels = [x.',y.'];
+% new_order  = [flip(1:floor(n/2)+1), flip(floor(n/2)+2:length(1:n))];
+% new_panels = panels(new_order,1:2);
 
 all_panels = zeros(n,4);
 

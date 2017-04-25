@@ -5,14 +5,14 @@
 %
 % Plots the streamlines around an 8 panel cylinder
 
-function [xr, yr] = approx_streamline2(xs, ys, tf, h, fn, q, panels)
+function [xr, yr] = approx_streamline2(xs, ys, tf, h, fn, q, panels, u_inf)
 
 n = tf/h;    % Number of steps
 [xr,yr] = deal([xs , zeros(length(xs),n)]) ; % Pre-allocate xr and yr array 
 
 for i = 1:length(xs)
     state0 = [xs(i) ; ys(i)]; % Define state
-    state = fn(state0, h, n, q, panels); % Run simulation
+    state = fn(state0, h, n, q, panels, u_inf); % Run simulation
 
     % Copy into return array
     xr(i,:) = state(1,:);   % x-coords in first row

@@ -8,8 +8,8 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-
-n_pan = 8 ; % Number of panels to use
+U_inf = 1 ;
+n_pan = 64 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
 % panels = create8pan
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
@@ -33,7 +33,7 @@ for m=1:n_pan; % Loop throught each panel
 end
 
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
-U_inf   = 1                     ;
+
 V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
 
 q = I\V_inf_i % Solve for source strength densities (q)
@@ -70,7 +70,7 @@ fill(panels(:,1),panels(:,2),[255 105 180]./256)
 
 % Set up simulation conditions
 t0   = 0     ; % Initial time
-tf   = 6.00  ; % Final time
+tf   = 3.00  ; % Final time
 h    = 0.01  ; % Step size
 
 y_range = (-2:.25:2).';
@@ -82,7 +82,7 @@ ys = ic0(:,2) ;
 c = [n,q.']   ; % Pack up concstants matrix 
 
 % Calculate streamlines in same fashion as fluids 1 
-tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels);
+tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
 time_streams = toc
 %% Plotting fucntions
 % Plot results and make pretty
