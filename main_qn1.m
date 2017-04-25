@@ -9,20 +9,16 @@ clc , clear , close all %, format bank
 
 %% Create the panels and find the influsence co-efficients 
 U_inf = 1 ;
-n_pan = 64 ; % Number of panels to use
-panels = n_panel_circle(n_pan) ;  % Define the panels for 8 (make mathematical l8r)
-% panels = create8pan
+n_pan = 8 ; % Number of panels to use
+panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
 
 % Calculate influence
-figure ; hold on ;
-
 for m=1:n_pan; % Loop throught each panel
     Xi=[panels(m,1),panels(m,3)]; % end?points of panel j in x and y
     Yi=[panels(m,2),panels(m,4)];
     
-    Phi_i(m)=atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
-    plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ;          % Plot approximated cylinder
+    Phi_i(m)=atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24) 
     
     for k=1:n_pan ; % Calculate the influence coeff on every other panel    
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
@@ -59,22 +55,18 @@ end
 u_hat_inf = u_hat + U_inf;
 time_pattern = toc
 
-%% Plot panel estimation
-
-h = pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ;
-set(h, 'EdgeColor', 'none') ; colormap jet
-% quiver(xp, yp, u_hat_inf, v_hat, 2, 'k')
-fill(panels(:,1),panels(:,2),[255 105 180]./256)
-
-%% Plot the streamlines
+%% Solve the streamlines
 
 % Set up simulation conditions
 t0   = 0     ; % Initial time
-tf   = 6.00  ; % Final time
+tf   = 6     ; % Final time
 h    = 0.01  ; % Step size
 
 y_range = (-2:.25:2).';
 ic0  = [ -3*ones(length(y_range),1) , y_range ];
+% Xmj=0.5*(panels(:,1)+panels(:,3)) ;
+% Ymj=0.5*(panels(:,2)+panels(:,4)) ;
+% ic0 = [Xmj , Ymj];
 
 % Initial conditions for streamlines
 xs = ic0(:,1) ;
@@ -84,10 +76,26 @@ c = [n,q.']   ; % Pack up concstants matrix
 % Calculate streamlines in same fashion as fluids 1 
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
 time_streams = toc
-%% Final plot of results and make pretty
-hold on ;  plot(xr.', yr.', 'b') ;
-quiver(xr(:,1), yr(:,1), xr(:,2)-xr(:,1), yr(:,2)-yr(:,1));
+
+
+
+
+%% Plot results and make pretty
+
+figure ; hold on ;
+
+Xi=[panels(:,1),panels(:,3)]; % end?points of panel j in x and y
+Yi=[panels(:,2),panels(:,4)];
+
+% Plot approximated cylinder with 
+plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
+fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
+
+%
+pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ; shading flat ; colormap jet
+plot(xr.', yr.', 'b') ;
 axis equal  ; axis([-2 2 -2 2]) ;  h = colorbar ;
-xlabel(h,'m/s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
+xlabel(h,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
+quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))/h, (yr(:,101)-yr(:,100))/h,0.5,1,'m/s','k');
