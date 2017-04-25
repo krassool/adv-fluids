@@ -62,40 +62,36 @@ t0   = 0     ; % Initial time
 tf   = 6     ; % Final time
 h    = 0.01  ; % Step size
 
-y_range = (-2:.25:2).';
-ic0  = [ -3*ones(length(y_range),1) , y_range ];
-% Xmj=0.5*(panels(:,1)+panels(:,3)) ;
-% Ymj=0.5*(panels(:,2)+panels(:,4)) ;
-% ic0 = [Xmj , Ymj];
+y_range = (-2:.25:2).'; % Range over which to seen line for flow definition
+ic0  = [ -3*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
 
 % Initial conditions for streamlines
 xs = ic0(:,1) ;
 ys = ic0(:,2) ;
-c = [n,q.']   ; % Pack up concstants matrix 
 
-% Calculate streamlines in same fashion as fluids 1 
+% Calculate streamlines in same fashion as fluids 
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
 time_streams = toc
 
-
-
-
 %% Plot results and make pretty
-
+close all 
 figure ; hold on ;
 
 Xi=[panels(:,1),panels(:,3)]; % endpoints of panel j in x and y
 Yi=[panels(:,2),panels(:,4)];
 
-% Plot approximated cylinder with 
+% Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
+pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ; shading flat ; colormap jet
 fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
-%
-pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ; shading flat ; colormap jet
+% Create stream-lines
 plot(xr.', yr.', 'b') ;
+
+% Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ;  h = colorbar ;
 xlabel(h,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
-quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))/h, (yr(:,101)-yr(:,100))/h,0.5,1,'m/s','k');
+% quivers(xr(:,100), yr(:,100), ((xr(:,101)-xr(:,100))/h), ((yr(:,101)-yr(:,100))/h) ... 
+%     ,0.5,1,'m/s','k');
