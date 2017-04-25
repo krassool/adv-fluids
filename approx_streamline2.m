@@ -6,7 +6,7 @@
 % Plots the streamlines around an 8 panel cylinder
 
 function [xr, yr] = approx_streamline2(xs, ys, tf, h, fn, q, panels, u_inf)
-
+q
 n = tf/h;    % Number of steps
 [xr,yr] = deal([xs , zeros(length(xs),n)]) ; % Pre-allocate xr and yr array 
 

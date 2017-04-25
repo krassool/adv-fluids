@@ -32,11 +32,10 @@ for i = 1:n
 end
 
 function state_derivative = get_velocities( state , k , panels , u_inf)
-
 x = state(1) ; y = state(2); % Previous state definition
 
-u = -u_inf+ (k*(x^2-y^2))/(pi*(x^2+y^2)^2) ;
-v = (2*k*y*x)/(pi*(x^2+y^2)^2);
+u = u_inf+ (k*(x^2-y^2))/(pi*(x^2+y^2)^2) ;
+v = -(2*k*y*x)/(pi*(x^2+y^2)^2);
 
 state_derivative = [u ; v]; 
 
