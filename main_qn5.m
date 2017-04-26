@@ -55,7 +55,7 @@ for n=1:n_pan ; % for each panel
     Xj=[panels(n,1),panels(n,3)];
     Yj=[panels(n,2),panels(n,4)];
     
-    [u,v] = flow_field_cyl_1_0( Xj , Yj , q(n) , xp , yp );
+    [u,v] = source_panel_on_point_vel( Xj , Yj , q(n) , xp , yp );
     
     u_hat=u_hat + u;
     v_hat=v_hat + v;
