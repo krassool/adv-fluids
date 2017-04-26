@@ -62,12 +62,12 @@ for n=1:n_pan  % for each panel
     Xj=[panels(n,1),panels(n,3)];
     Yj=[panels(n,2),panels(n,4)];
     
-    [u,v] = panel_on_point_vel( Xj , Yj , q(n) , xp , yp );
+    [u,v] = source_panel_on_point_vel( Xj , Yj , q(n) , xp , yp );
     
     u_hat=u_hat + u;
     v_hat=v_hat + v;
     
-    [u_surf,v_surf] = panel_on_point_vel( Xj , Yj , q(n) , Xmj , Ymj );
+    [u_surf,v_surf] = source_panel_on_point_vel( Xj , Yj , q(n) , Xmj , Ymj );
     
     u_hat_surf=u_hat_surf + u_surf;
     v_hat_surf=v_hat_surf + v_surf;

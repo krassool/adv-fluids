@@ -34,7 +34,7 @@ for n  = 1:length(panels)
     Xj = [panels(n,1),panels(n,3)] ; % Panel endpoints in X and Y
     Yj = [panels(n,2),panels(n,4)] ;
     
-    [u_tmp,v_tmp] = panel_on_point_vel( Xj , Yj , q(n) , x , y );    
+    [u_tmp,v_tmp] = source_panel_on_point_vel( Xj , Yj , q(n) , x , y );    
     u = u+u_tmp;
     v = v+v_tmp;
 end

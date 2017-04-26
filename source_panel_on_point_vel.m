@@ -1,4 +1,4 @@
-function [u,v] = panel_on_point_vel(Xj,Yj,q,xp,yp)
+function [u,v] = source_panel_on_point_vel(Xj,Yj,q,xp,yp)
 
 Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
 Ymj = 0.5*(Yj(1) + Yj(2));
