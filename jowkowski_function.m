@@ -46,7 +46,9 @@ for j=1:n
 end
 
 flip_panels=flip(all_panels);
-sorted_panels=circshift(flip_panels,-2);
+sorted_panels=circshift(flip_panels,-1);
+clipped_panels=sorted_panels(1:end-1,:);
+%NOTE, this may need to be unclipped at circhift=2
 
 % figure ; hold on ;
 % for p=1:n

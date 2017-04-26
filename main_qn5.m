@@ -10,7 +10,7 @@ clc , clear , close all %, format bank
 %% Create the panels and find the influsence co-efficients 
 
 %create jowkowski panels
-aoa=0; %angle of attack in degrees
+aoa=20; %angle of attack in degrees
 panels = jowkowski_function(aoa);
 % panels = create8pan
 n_pan=length(panels);
@@ -30,7 +30,7 @@ for m=1:n_pan; % Loop throught each panel
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
         Yj=[panels(k,2),panels(k,4)];
         
-        I(m,k)=panel_source_strength_1_0(Xi, Yi, Xj, Yj); % Find coeff
+        I(m,k)=panel_source_strength_0_9(Xi, Yi, Xj, Yj); % Find coeff
     end
 end
 
@@ -39,7 +39,7 @@ I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 U_inf   = 1                     ;
 V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
 
-q = I\V_inf_i % Solve for source strength densities (q)
+q = I\V_inf_i; % Solve for source strength densities (q)
 
 %% Find veloctities
 tic
