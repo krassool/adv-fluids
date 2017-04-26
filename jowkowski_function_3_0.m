@@ -6,6 +6,13 @@ c   =  0.95    ; % Jowcow parameter
 x_s = -0.04875 ; % x-equivilant thing
 y_s =  0.05*1i  ; % y-equivilant thing
 
+%% overwrite ics
+a=1;
+c=0.00;%0.95;
+x_s=0.00%-0.04875;
+y_s=0.0;%0.05*i;
+alpha_deg=0; %degrees
+
 %% Create physical variables
 
 alpha = alpha_deg / 180*pi     ; % Angle of attack in radians
@@ -39,7 +46,7 @@ for j=1:n
     end
 end
 
-flip_panels   = flip(all_panels)          ; % Flip the top with the bottom
+flip_panels   = (all_panels)          ; % Flip the top with the bottom%flip()
 sorted_panels = circshift(flip_panels,-2) ; % Shift everything around by 2
 % .. not sure why its 2?
 

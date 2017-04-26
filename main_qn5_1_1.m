@@ -11,7 +11,7 @@ clc , clear , close all %, format bank
 
 % Create airfoil panels using jowkowski 
 aoa_degrees = 20 ;                                   % Angle of attack in degrees
-panels      = jowkowski_function_2_0(aoa_degrees) ; % Create an airfoil in panels 
+panels      = jowkowski_function_3_0(aoa_degrees) ; % Create an airfoil in panels 
 n_pan       = length(panels);                       % Number of panels
 I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
 U_inf = 1 ;
@@ -22,7 +22,7 @@ for m=1:n_pan; % Loop throught each panel
     Xi=[panels(m,1),panels(m,3)]; % end?points of panel j in x and y
     Yi=[panels(m,2),panels(m,4)];
     
-    Phi_i(m)=atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24) 
+    Phi_i(m)=-atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24) 
     
     for k=1:n_pan ; % Calculate the influence coeff on every other panel    
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
@@ -101,3 +101,15 @@ title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 % Plot streamline direction and magnitude
 % quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
 quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+
+%% 
+% Look at this, does make sense that its slow about the centre of the foil
+v_mag = real(sqrt(u_hat_inf.^2+v_hat.^2)) ; 
+figure ; spy(v_mag>=.5) ; title('Spying elements with velocity magnitude >= 0.5 m/s')
+figure ; spy(v_mag<=.1) ; title('Spying elements with velocity magnitude <= 0.1 m/s')
+
+exes = [panels(1:2,1) , panels(1:2,3) ] ;
+whys = [panels(1:2,2) , panels(1:2,4) ] ;
+
+figure ; plot(exes , whys) ; legend('line1','line2')
+title('Showing first two panels')

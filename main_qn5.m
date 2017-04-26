@@ -102,6 +102,7 @@ title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 %% Expose error in solution. Definition of airfoil known to be wrong
 
 % Look at this, does make sense that its slow about the centre of the foil
+v_mag = real(sqrt(u_hat_inf.^2+v_hat.^2)) ; 
 figure ; spy(v_mag>=.5) ; title('Spying elements with velocity magnitude >= 0.5 m/s')
 figure ; spy(v_mag<=.1) ; title('Spying elements with velocity magnitude <= 0.1 m/s')
 
