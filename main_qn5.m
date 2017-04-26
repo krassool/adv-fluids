@@ -11,7 +11,7 @@ clc , clear , close all %, format bank
 
 %create jowkowski panels
 aoa=20; %angle of attack in degrees
-panels = jowkowski_function(aoa);
+panels = jowkowski_function_2_0(aoa);
 % panels = create8pan
 n_pan=length(panels);
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
