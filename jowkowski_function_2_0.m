@@ -1,10 +1,18 @@
-function clipped_panels = jowkowski_function(alpha_deg)
+function clipped_panels = jowkowski_function_2_0(alpha_deg)
 
 %% set initial conditions
 a=1;
 c=0.95;
 x_s=-0.04875;
 y_s=0.05*i;
+
+%% set temp initial conditions
+a=1;
+c=0.00;%0.95;
+x_s=0.00%-0.04875;
+y_s=0.0;%0.05*i;
+alpha_deg=0; %degrees
+
 
 %% create physical variables
 alpha=alpha_deg/180*pi %angle of attack in radians
@@ -49,4 +57,20 @@ flip_panels=flip(all_panels);
 sorted_panels=circshift(flip_panels,-1);
 clipped_panels=sorted_panels(1:end-1,:);
 
+%% Plotting (optional)
+
+
+%% Plotting
+
+% figure ; hold on ;
+% for p=1:n
+%    Xj = [clipped_panels(p,1),clipped_panels(p,3)]
+%    Yj = [clipped_panels(p,2),clipped_panels(p,4)]
+%    plot(Xj,Yj,'-b','LineWidth', 2.5)
+%    pause
+% end
+
+
 end
+
+

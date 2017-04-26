@@ -44,15 +44,26 @@ w1=w0+c^2./w0;
 
 w2=w1*exp(-alpha*i);
 
-
-figure
-plot(real(w2),imag(w2),'g--')
-axis([-5 5 -3 3])
-daspect([1 1 1])
+%% accounting for the panels
 
 airfoil_panels=[real(w2);imag(w2)].';
 n=length(airfoil_panels);
 all_panels = zeros(n,4);
+
+for j=1:n
+    if j==n % at the end, replace with the first ones
+        all_panels(j,:) = [airfoil_panels(j,:),airfoil_panels(1,:)];
+    else
+        all_panels(j,:) = [airfoil_panels(j,:),airfoil_panels(j+1,:)];
+    end
+end
+
+flip_panels=flip(all_panels);
+sorted_panels=circshift(flip_panels,-1);
+clipped_panels=sorted_panels(1:end-1,:);
+
+
+%% Plotting
 
 figure ; hold on ;
 for p=1:n

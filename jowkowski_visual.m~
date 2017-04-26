@@ -3,9 +3,9 @@ close all
 
 %% set initial conditions
 a=1;
-c=0.60;%0.95;
+c=0.95;
 x_s=0.00%-0.04875;
-y_s=0.0;%0.05*i;
+y_s=0.005*i;
 alpha_deg=0; %degrees
 
 
@@ -50,14 +50,4 @@ plot(real(w2),imag(w2),'g--')
 axis([-5 5 -3 3])
 daspect([1 1 1])
 
-airfoil_panels=[real(w2);imag(w2)].';
-n=length(airfoil_panels);
-all_panels = zeros(n,4);
-
-figure ; hold on ;
-for p=1:n
-   Xj = [clipped_panels(p,1),clipped_panels(p,3)]
-   Yj = [clipped_panels(p,2),clipped_panels(p,4)]
-   plot(Xj,Yj,'-b','LineWidth', 2.5)
-   pause
-end
+airfoil_panels=[real(w2),imag(w2)];
