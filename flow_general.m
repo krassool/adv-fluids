@@ -27,14 +27,13 @@ function state_derivative = get_velocities( state , q , panels , u_inf)
 
 x = state(1) ; y = state(2); % Previous state definition
 
-% Get velocity contributions from each panel
-[u,v] = deal(0);
+[u,v] = deal(0); % pre-allocate velocity contributions
 
-for n  = 1:length(panels)
-    Xj = [panels(n,1),panels(n,3)] ; % Panel endpoints in X and Y
-    Yj = [panels(n,2),panels(n,4)] ;
+for n_panel  = 1:length(panels) % For each panel, find the effective strength at the point
+    Xj = [panels(n_panel,1),panels(n_panel,3)] ; % Panel endpoints in X and Y
+    Yj = [panels(n_panel,2),panels(n_panel,4)] ;
     
-    [u_tmp,v_tmp] = source_panel_on_point_vel( Xj , Yj , q(n) , x , y );    
+    [u_tmp,v_tmp] = source_panel_on_point_vel( Xj , Yj , q(n_panel) , x , y );    
     u = u+u_tmp;
     v = v+v_tmp;
 end

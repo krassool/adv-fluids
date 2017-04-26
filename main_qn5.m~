@@ -99,17 +99,12 @@ xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ;
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 
-%% Expose error in solution. Definition of airfoil known to be wrong
+%% Expose error in definition of airfoil
 
 % Look at this, does make sense that its slow about the centre of the foil
-figure ; spy(v_mag>=.5) ; title('Spying elements with velocity magnitude >= 0.5 m/s')
-figure ; spy(v_mag<=.1) ; title('Spying elements with velocity magnitude <= 0.1 m/s')
-
+figure ; spy(v_mag<=.1) ;
 exes = [panels(1:2,1) , panels(1:2,3) ] ;
-whys = [panels(1:2,2) , panels(1:2,4) ] ;
-
-figure ; plot(exes , whys) ; legend('line1','line2')
-title('Showing first two panels')
+whys =  [panels(1:2,1) , panels(1:2,3) ] ;
 
 % %% Plot results and make pretty
 % 

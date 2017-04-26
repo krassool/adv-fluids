@@ -3,10 +3,10 @@
 % MCEN90018 - Advanced Fluid Dynamics              ; Last Edited: 29/4/17
 % Assignment 2 : Panel Methods - 8 Panel Cylinder
 %
-% Plots the streamlines around an 8 panel cylinder
+% Plots the streamlines around a source panel object
 
 function [xr, yr] = approx_streamline2(xs, ys, tf, h, fn, q, panels, u_inf)
-q
+
 n = tf/h;    % Number of steps
 [xr,yr] = deal([xs , zeros(length(xs),n)]) ; % Pre-allocate xr and yr array 
 
