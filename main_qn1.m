@@ -9,7 +9,7 @@ clc , clear , close all %, format bank
 
 %% Create the panels and find the influsence co-efficients 
 U_inf = 1 ;
-n_pan = 8 ; % Number of panels to use
+n_pan = 64 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
 
@@ -82,7 +82,7 @@ Yi=[panels(:,2),panels(:,4)];
 
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
-pcolor(xp, yp, sqrt(u_hat_inf.^2+v_hat.^2)) ; shading flat ; colormap jet
+pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
 fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
@@ -91,6 +91,7 @@ plot(xr.', yr.', 'b') ;
 % Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
+caxis([0 4]);
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 

@@ -3,8 +3,8 @@ close all
 
 %% set initial conditions
 a=1;
-c=0.60;%0.95;
-x_s=0.00%-0.04875;
+c=0.00;%0.95;
+x_s=-0.00%-0.04875;
 y_s=0.0;%0.05*i;
 alpha_deg=0; %degrees
 
@@ -64,8 +64,11 @@ clipped_panels=sorted_panels(1:end-1,:);
 
 
 %% Plotting
-
-figure ; hold on ;
+figure;
+   Xj = [clipped_panels(1,1),clipped_panels(1,3)]
+   Yj = [clipped_panels(1,2),clipped_panels(1,4)]
+   plot(Xj,Yj,'r*','LineWidth', 2.5)
+ hold on ;
 for p=1:n
    Xj = [clipped_panels(p,1),clipped_panels(p,3)]
    Yj = [clipped_panels(p,2),clipped_panels(p,4)]

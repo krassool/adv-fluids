@@ -8,8 +8,8 @@ y_s=0.05*i;
 
 %% set temp initial conditions
 a=1;
-c=0.00;%0.95;
-x_s=0.00%-0.04875;
+c=0.80;%0.95;
+x_s=-0.20%-0.04875;
 y_s=0.0;%0.05*i;
 alpha_deg=0; %degrees
 

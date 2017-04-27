@@ -22,7 +22,7 @@ for m=1:n_pan; % Loop throught each panel
     Xi=[panels(m,1),panels(m,3)]; % end?points of panel j in x and y
     Yi=[panels(m,2),panels(m,4)];
     
-    Phi_i(m)=-atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24) 
+    Phi_i(m)=atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24) 
     
     for k=1:n_pan ; % Calculate the influence coeff on every other panel    
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
@@ -96,6 +96,7 @@ plot(xr.', yr.', 'b') ;
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 legend('Streamlines')    ;
+caxis([0 4])
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 
 % Plot streamline direction and magnitude
