@@ -1,28 +1,27 @@
 function clipped_panels = jowkowski_function_2_0(alpha_deg)
 
 %% set initial conditions
-a=1;
-c=0.95;
-x_s=-0.04875;
-y_s=0.05*i;
+a   =  1       ;
+c   =  0.95    ;
+x_s = -0.04875 ;
+y_s =  0.05*1i ;
 
 %% set temp initial conditions
-a=1;
-c=0.80;%0.95;
-x_s=-0.20%-0.04875;
-y_s=0.0;%0.05*i;
-alpha_deg=0; %degrees
-
+% a=1;
+% c=0.80;%0.95;
+% x_s=-0.20%-0.04875;
+% y_s=0.0;%0.05*i;
+% alpha_deg=0; %degrees
 
 %% create physical variables
-alpha=alpha_deg/180*pi %angle of attack in radians
-th = 0:pi/50:2*pi;      %theta for circle definition
+alpha   =alpha_deg/180*pi %angle of attack in radians
+th      = 0:pi/50:2*pi;      %theta for circle definition
 
 %define the cylinder in the flow
-z = a*(cos(th)+i*sin(th));
+z = a*(cos(th)+1i*sin(th));
 
 % Define the smaller transform circle (only for visuals)
-z_c = c*(cos(th)+i*sin(th));
+z_c = c*(cos(th)+1i*sin(th));
 
 %% Transformation 1 
 %We shift the circle with radius a relative to a Jowkowski 
@@ -39,7 +38,7 @@ w1=w0+c^2./w0;
 %% Transformation 2 
 %We add the angle of attack ?
 
-w2=w1*exp(-alpha*i);
+w2=w1*exp(-alpha*1i);
 
 airfoil_panels=[real(w2);imag(w2)].';
 n=length(airfoil_panels);

@@ -20,7 +20,7 @@ for m = 1 : n_pan ; % Loop throught each panel
     Xi = [panels(m,1),panels(m,3)]; % endpoints of panel j in x and y
     Yi = [panels(m,2),panels(m,4)];
     
-    Phi_i(m) = atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
+    Phi_i(m) = -atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
     
     for k=1:n_pan ; % Calculate the influence coeff on every other panel    
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
@@ -62,13 +62,13 @@ time_pattern = toc
 %% Caclulate the streamlines
 
 % Set up simulation conditions
-t0   = 0     ; % Initial time
-tf   = 0.03  ; % Final time
-h    = 0.005  ; % Step size
+t0   = 0.00  ; % Initial time
+tf   = 4.00  ; % Final time
+h    = 0.01  ; % Step size
 
-% y_range = (-2:.25:2).';
-y_range = (-0.2:.1:0.2).';
-ic0  = [ -2*ones(length(y_range),1) , y_range ];
+y_range = (-1:.1:1).'   ;
+% y_range = (-0.2:.1:0.2).';
+ic0  = [ -3*ones(length(y_range),1) , y_range ];
 
 % Initial conditions for streamlines
 xs = ic0(:,1) ;
@@ -76,7 +76,7 @@ ys = ic0(:,2) ;
 
 % Calculate streamlines in same fashion as fluids 1 
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels,U_inf);
-time_streams = toc
+time_streams   = toc
 
 %% Plot results and make pretty
 close all 
@@ -91,7 +91,7 @@ pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
 fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
-plot(xr.', yr.', 'b') ;
+plot(xr.', yr.', 'r') ;
 
 % Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
