@@ -17,6 +17,7 @@ clc , clear , close all %, format bank
 aoa_degrees = 0 ;                                   % Angle of attack in degrees
 panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
 n_pan       = length(panels);                       % Number of panels
+panels = n_panel_circle_soft(n_pan,1) ;  % Define the number of approximation panels
 I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
 
 
