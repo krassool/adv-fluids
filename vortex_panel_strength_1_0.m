@@ -30,10 +30,9 @@ y0p = rij.*sin(omega); % (eqn 28)
 
 S = sqrt((Xj(2) - Xj(1)).^2 + (Yj(2) - Yj(1)).^2);
 a =-S/2; b =S/2; %(eqn 11)
-
-vj =  1/(2*pi).*( atan((x0p-b)./y0p) - atan((x0p-a)./y0p))
-
-uj =  1/(2*pi).*( log((x0p-b).^2+y0p.^2)/2 - log((x0p-a).^2+y0p.^2)/2)
+% 
+% vj =  1/(2*pi).*( atan((x0p-b)./y0p) - atan((x0p-a)./y0p)) ;
+% uj =  1/(2*pi).*( log((x0p-b).^2+y0p.^2)/2 - log((x0p-a).^2+y0p.^2)/2 ) ;
 
 vi = uj.*sin(Phi_j-Phi_i)+vj.*cos(Phi_j-Phi_i); % eqn(31) %transofrm back to intertial coord sys
 
