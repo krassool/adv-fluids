@@ -8,17 +8,18 @@
 
 function I = panel_source_strength_1_0( Xi, Yi, Xj, Yj)
 
-Xmi=0.5*(Xi(2)+Xi(1)); % midpoint of panel i
-Ymi=0.5*(Yi(2)+Yi(1));
-Phi_i=atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
+Xmi   = 0.5*(Xi(2)+Xi(1)); % midpoint of panel i
+Ymi   = 0.5*(Yi(2)+Yi(1));
+Phi_i = atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
 
-Xmj=0.5*(Xj(2)+Xj(1)); % midpoint of panel j
-Ymj=0.5*(Yj(2)+Yj(1));
-Phi_j=atan2((Yj(2)-Yj(1)),(Xj(2)-Xj(1))); %phi_j (eqn 23)
+Xmj   = 0.5*(Xj(2)+Xj(1)); % midpoint of panel j
+Ymj   = 0.5*(Yj(2)+Yj(1));
 
-rij = sqrt((Xmj - Xmi).^2 + (Ymj - Ymi).^2); % (eqn 22)
+Phi_j = atan2((Yj(2)-Yj(1)),(Xj(2)-Xj(1))); %phi_j (eqn 23)
 
-beta = atan2((Ymi - Ymj),(Xmi - Xmj)); % (eqn 25)
+rij   = sqrt((Xmj - Xmi).^2 + (Ymj - Ymi).^2); % (eqn 22)
+
+beta  = atan2((Ymi - Ymj),(Xmi - Xmj)); % (eqn 25)
 omega = beta - Phi_j; % (eqn 26)
 
 x0p = rij.*cos(omega); % (eqn 27)

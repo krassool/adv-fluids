@@ -10,8 +10,8 @@ function all_panels = n_panel_circle(n)
 t = linspace(0,2*pi,n+1);
 % x = cos(t+pi/n);
 % y = sin(t+pi/n);
-x = cos(t+pi/4);
-y = sin(t+pi/4);
+x = cos(t+pi/n);
+y = sin(t+pi/n);
 
 panels= [x.',y.'];
 new_order  = [flip(1:floor(n/2)+1), flip(floor(n/2)+2:length(1:n))];

@@ -31,7 +31,7 @@ end
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 
 V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
-q = I\V_inf_i                      % Solve for source strength densities (q)
+gam = I\V_inf_i                      % Solve for source strength densities (q)
 
 %% Find veloctities
 tic
@@ -47,14 +47,14 @@ for n=1:n_pan ; % for each panel
     Xj = [panels(n,1),panels(n,3)] ;
     Yj = [panels(n,2),panels(n,4)] ;
     
-    [u,v] = flow_field_cyl_1_0( Xj , Yj , q(n) , xp , yp );
+    [u,v] = vor_panel_on_point_vel( Xj , Yj , gam(n) , xp , yp );
     
-    u_hat=u_hat + u;
-    v_hat=v_hat + v;
+    u_hat=u_hat + u ;
+    v_hat=v_hat + v ;
 end
+
 u_hat_inf = u_hat + U_inf;
 time_pattern = toc
-
 %% Solve the streamlines
 
 % Set up simulation conditions
@@ -70,7 +70,7 @@ xs = ic0(:,1) ;
 ys = ic0(:,2) ;
 
 % Calculate streamlines in same fashion as fluids 
-tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels, U_inf);
+tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_vor_general , gam , panels, U_inf);
 time_streams = toc
 
 %% Plot results and make pretty
