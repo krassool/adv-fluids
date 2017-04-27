@@ -5,7 +5,7 @@ a   =  1       ;
 c   =  0.95    ;
 x_s =  -0.04875 ;
 y_s =  0.05*1i ;
-n_steps=20     ;
+n_steps=8     ;
 %% set temp initial conditions
 a=1;
 c=0.0;%0.95;
