@@ -16,7 +16,7 @@
 % Create airfoil panels using jowkowski 
 aoa_degrees = 0 ;                                   % Angle of attack in degrees
 % panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
-n_pan   =20   % = length(panels);                       % Number of panels
+n_pan   =5   % = length(panels);                       % Number of panels
 panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
 
@@ -39,7 +39,6 @@ end
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 I_append=zeros(1,size(I,1));
 I_append(1)=1; I_append(end)=1;
-
 I_con=[I;I_append];
 
 V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
@@ -47,7 +46,7 @@ V_inf_i_con = [ V_inf_i ; 1] ;
 % gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
 
 gam         = I\V_inf_i       % Solve for source strength densities (q)
-
+gam=gam/n_pan;
 %% Find veloctities
 tic
 mesh_res      = 0.01 ; % Meshgrid density (resolution for results)
@@ -112,4 +111,4 @@ title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 
 % Plot streamline direction and magnitude
 % quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
-quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+% quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
