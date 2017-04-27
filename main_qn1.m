@@ -8,9 +8,9 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-U_inf = 1 ;
-n_pan = 64 ; % Number of panels to use
-panels = n_panel_circle_soft(n_pan,1) ;  % Define the number of approximation panels
+U_inf  = 1 ;
+n_pan  = 64 ; % Number of panels to use
+panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
 
 % Calculate influence

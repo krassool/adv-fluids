@@ -10,13 +10,12 @@ function all_panels = n_panel_circle(n)
 t = linspace(0,2*pi,n+1);
 % x = cos(t+pi/n);
 % y = sin(t+pi/n);
-x = cos(t+pi/n);
-y = sin(t+pi/n);
+x = cos(t+pi);
+y = sin(t+pi);
 
 panels= [x.',y.'];
-new_order  = [flip(1:floor(n/2)+1), flip(floor(n/2)+2:length(1:n))];
-new_panels = panels(new_order,1:2);
-
+new_order = circshift(flip(1:n),floor(n/2)+1,2);
+new_panels = panels(new_order,:);
 all_panels = zeros(n,4);
 
 % Create end-points
@@ -36,7 +35,5 @@ end
 %    axis([-1 1 -1 1])
 %    pause
 % end
-% 
-
 
 end
