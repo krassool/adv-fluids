@@ -20,7 +20,7 @@ for m = 1 : n_pan ; % Loop throught each panel
     Xi = [panels(m,1),panels(m,3)]; % endpoints of panel j in x and y
     Yi = [panels(m,2),panels(m,4)];
     
-    Phi_i(m) = atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
+    Phi_i(m) = -atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % phi_i (eqn 24)
     
     for k=1:n_pan ; % Calculate the influence coeff on every other panel    
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
@@ -65,8 +65,10 @@ time_pattern = toc
 t0   = 0.00  ; % Initial time
 tf   = 8.00  ; % Final time
 h    = 0.01  ; % Step size
+y_lim= 0.5;
 
-y_range = (-1:.2:1).'   ;
+
+y_range = (-y_lim:.2:y_lim).'   ;
 % y_range = (-0.2:.1:0.2).';
 ic0  = [ -3*ones(length(y_range),1) , y_range ];
 

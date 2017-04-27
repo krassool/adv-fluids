@@ -3,19 +3,19 @@ function clipped_panels = jowkowski_function_2_0(alpha_deg)
 %% set initial conditions
 a   =  1       ;
 c   =  0.95    ;
-x_s = -0.04875 ;
+x_s =  0.04875 ;
 y_s =  0.05*1i ;
-
+n_steps=20     ;
 %% set temp initial conditions
-% a=1;
-% c=0.80;%0.95;
-% x_s=-0.20%-0.04875;
-% y_s=0.0;%0.05*i;
-% alpha_deg=0; %degrees
+a=1;
+c=0.0;%0.95;
+x_s=0.0%-0.04875;
+y_s=0.0;%0.05*i;
+alpha_deg=0; %degrees
 
 %% create physical variables
 alpha   =alpha_deg/180*pi %angle of attack in radians
-th      = 0:pi/50:2*pi;      %theta for circle definition
+th      = linspace(0,2*pi,n_steps);      %theta for circle definition
 
 %define the cylinder in the flow
 z = a*(cos(th)+1i*sin(th));

@@ -10,7 +10,7 @@ clc , clear , close all %, format bank
 %% Create the panels and find the influsence co-efficients 
 
 % Create airfoil panels using jowkowski 
-aoa_degrees = 20 ;                                   % Angle of attack in degrees
+aoa_degrees = 00 ;                                   % Angle of attack in degrees
 panels      = jowkowski_function_2_0(aoa_degrees) ; % Create an airfoil in panels 
 n_pan       = length(panels);                       % Number of panels
 I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
@@ -40,7 +40,7 @@ q = I\V_inf_i                      % Solve for source strength densities (q)
 %% Find veloctities
 tic
 mesh_res = 0.01 ; % Meshgrid density (resolution for results)
-[xp, yp] = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 );
+[xp, yp] = meshgrid( -3:mesh_res:2 , -2:mesh_res:2 );
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
 
 % This next loop runs through each of the panels and sums the velocity
@@ -66,7 +66,7 @@ t0   = 0     ; % Initial time
 tf   = 6     ; % Final time
 h    = 0.01  ; % Step size
 
-y_range = (-2:.25:2).'; % Range over which to seen line for flow definition
+y_range = (-1:.1:1).'; % Range over which to seen line for flow definition
 ic0  = [ -3*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
 
 % Initial conditions for streamlines

@@ -8,10 +8,17 @@
 clc , clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
-U_inf  = 1  ;
-n_pan  = 64 ; % Number of panels to use
-panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
-I      =(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
+ U_inf  = 1  ;
+% n_pan  = 64 ; % Number of panels to use
+% panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
+% I      =(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
+
+% Create airfoil panels using jowkowski 
+aoa_degrees = 0 ;                                   % Angle of attack in degrees
+panels      = jowkowski_function_2_0(aoa_degrees) ; % Create an airfoil in panels 
+n_pan       = length(panels);                       % Number of panels
+I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
+
 
 % Calculate influence
 for m = 1 : n_pan  % Loop throught each panel
@@ -29,9 +36,16 @@ for m = 1 : n_pan  % Loop throught each panel
 end
 
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
+I_append=zeros(1,size(I,1));
+I_append(1)=1; I_append(end)=1;
+
+I_con=[I;I_append];
+
+
 
 V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
-gam = I\V_inf_i                      % Solve for source strength densities (q)
+V_inf_i_con=[V_inf_i;1];
+gam = I_con\V_inf_i_con                      % Solve for source strength densities (q)
 
 %% Find veloctities
 tic

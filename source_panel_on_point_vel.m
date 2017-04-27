@@ -17,6 +17,9 @@ a = -S/2;
 b = S/2;
 % equations (18) and (19)
 vprime = (q./(2*pi)).*(atan(((S/2) - x0p)./y0p) - atan((-(S/2) - x0p)./y0p));
+vj =     (1./(2*pi)).*(atan(((S./2) -x0p)./y0p) - atan((-(S./2) - x0p)./y0p)); % eqn(30) %from panel source strength 
+
+
 uprime = (q./(2*pi)).*((-log((y0p.^2 + ((S.^2)/4) - (S.*x0p) + x0p.^2))./2) ...
     - (-log((y0p.^2 + ((S.^2)/4) + (S.*x0p) + x0p.^2))./2));
 % equations (21) and (22)
