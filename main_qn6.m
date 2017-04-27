@@ -16,7 +16,7 @@
 % Create airfoil panels using jowkowski 
 aoa_degrees = 0 ;                                   % Angle of attack in degrees
 % panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
-n_pan   =20   % = length(panels);                       % Number of panels
+n_pan   = 4   % = length(panels);                       % Number of panels
 panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
 
@@ -77,7 +77,7 @@ t0   = 0     ; % Initial time
 tf   = 6     ; % Final time
 h    = 0.01  ; % Step size
 
-y_range = (-3:.25:3).'; % Range over which to seen line for flow definition
+y_range = (-2:.25:2).'; % Range over which to seen line for flow definition
 ic0  = [ -3*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
 
 % Initial conditions for streamlines
@@ -85,8 +85,8 @@ xs = ic0(:,1) ;
 ys = ic0(:,2) ;
 
 % % Calculate streamlines in same fashion as fluids 
-% tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_vor_general , gam , panels, U_inf);
-% time_streams = toc
+tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_vor_general , gam , panels, U_inf);
+time_streams = toc
 
 %% Plot results and make pretty
 close all 
@@ -97,19 +97,17 @@ Yi=[panels(:,2),panels(:,4)];
 
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
-pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
-fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
+pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap gray
+% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
-% plot(xr.', yr.', 'b') ;
+plot(xr.', yr.', 'b') ;
+% Indicate streamline direction and magnitude
+quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
 
 % Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
-caxis([0 4]);
+caxis([0 5]);
 legend('Streamlines')    ;
-title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
-
-% Plot streamline direction and magnitude
-% quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
-quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+title('Qn 6 : Flow over jacowski feature, vorex panels (w.page, k.rassool) ') ;
