@@ -1,17 +1,17 @@
-function final_panels = jowkowski_function_2_0(alpha_deg)
+function final_panels = jowkowski_function_5_0(alpha_deg)
 
 %% set initial conditions
 a   =  1       ;
 c   =  0.95    ;
-x_s =  0.04875 ;
+x_s =  -0.04875 ;
 y_s =  0.05*1i ;
-n_steps=10     ;
+n_steps=64     ;
 %% set temp initial conditions
-a=1;
-c=0.0;%0.95;
-x_s=0.0%-0.04875;
-y_s=0.0;%0.05*i;
-alpha_deg=0; %degrees
+% a=1;
+% c=0.9;%0.95;
+% x_s=0.0%-0.04875;
+% y_s=0.0;%0.05*i;
+% % alpha_deg=0; %degrees
 
 %% create physical variables
 alpha   =alpha_deg/180*pi %angle of attack in radians

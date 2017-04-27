@@ -9,7 +9,7 @@ function all_panels = n_panel_circle_soft(n,r)
 
 t = linspace(0,2*pi,n+1);
 x = r*cos(t+pi/n);
-y = r*sin(t+pi/n);
+y = r/8*sin(t+pi/n);
 
 panels= [x.',y.'];
 new_order  = [flip(1:floor(n/2)+1), flip(floor(n/2)+2:length(1:n))];
