@@ -5,22 +5,17 @@
 %
 % Estimates the flow field around an 'n' panel cylinder
 %% Clear MATLAB environment, set format
- clear , close all %, format bank 
+clear , close all %, format bank 
 
 %% Create the panels and find the influsence co-efficients 
- U_inf  = 1  ;
+U_inf  = 1  ;
 
 % Create airfoil panels using jowkowski or circ function
-aoa_degrees = 0 ;                                   % Angle of attack in degrees
-% panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
-n_pan       = 8   % = length(panels);                       % Number of panels
-panels      = n_panel_circle(n_pan) ;  % Define the number of approximation panels
+aoa_degrees = 10 ;                                   % Angle of attack in degrees
+panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
+n_pan       = length(panels);                       % Number of panels
+% panels      = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I           = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
-
-% Yinew2 = panels(:,4) ; Yinew1 = panels(:,2);
-% Xinew2 = panels(:,3) ; Xinew1 = panels(:,1); 
-% 
-% Phi_i_old = atan2((Yinew2 -Yinew1) , (Xinew2 - Xinew1)) % Phi_i (eqn 24) 
 
 % Calculate influence
 for m = 1 : n_pan  % Loop throught each panel
@@ -36,6 +31,7 @@ for m = 1 : n_pan  % Loop throught each panel
     end
 end
 
+% Phi_i = Phi_i
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 
 % Include the kutta condition
@@ -46,7 +42,6 @@ I_con=[I;I_append];
 V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
 V_inf_i_con = [ V_inf_i ; 1] ;
 % gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
-% I_circshift = circshift(gam,-4,1)
 gam         = I\V_inf_i       % Solve for source strength densities (q)
 % new_order = flip(floor(n_pan/2)+1:end)
 
@@ -118,7 +113,7 @@ plot(xr.', yr.', 'r') ;
 quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
 
 % Label plot and add features accordingly
-% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
+fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 caxis([0 5]);
@@ -129,20 +124,20 @@ title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 % quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
 % quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
 
-for l=1:n_pan
-    
-    Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
-    Yj=[panels(l,2),panels(l,4)];
-    Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
-    Ymj = 0.5*(Yj(1) + Yj(2));
-
-    hold on
-    strmin = ['gam = ',num2str(gam(l))];
-    text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
-    
-    strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
-    text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
-    
-    strmin = ['n pan =',num2str(l)];
-    text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
-end
+% for l=1:n_pan
+%     
+%     Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
+%     Yj=[panels(l,2),panels(l,4)];
+%     Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
+%     Ymj = 0.5*(Yj(1) + Yj(2));
+% 
+%     hold on
+%     strmin = ['gam = ',num2str(gam(l))];
+%     text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
+%     
+%     strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
+%     text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
+%     
+%     strmin = ['n pan =',num2str(l)];
+%     text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
+% end
