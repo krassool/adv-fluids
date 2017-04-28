@@ -3,9 +3,9 @@ close all
 
 %% set initial conditions
 a=1;
-c=0.00;%0.95;
-x_s=-0.00%-0.04875;
-y_s=0.0;%0.05*i;
+c=0.95;
+x_s=-0.04875;
+y_s=0.05*i;
 alpha_deg=0; %degrees
 
 
@@ -69,9 +69,9 @@ figure;
    Yj = [clipped_panels(1,2),clipped_panels(1,4)]
    plot(Xj,Yj,'r*','LineWidth', 2.5)
  hold on ;
-for p=1:n
-   Xj = [clipped_panels(p,1),clipped_panels(p,3)]
-   Yj = [clipped_panels(p,2),clipped_panels(p,4)]
-   plot(Xj,Yj,'-b','LineWidth', 2.5)
-   pause
-end
+% for p=1:n
+%    Xj = [clipped_panels(p,1),clipped_panels(p,3)]
+%    Yj = [clipped_panels(p,2),clipped_panels(p,4)]
+%    plot(Xj,Yj,'-b','LineWidth', 2.5)
+%    pause
+% end
