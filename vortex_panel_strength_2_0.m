@@ -6,7 +6,7 @@
 % Calculates the influence coefficients given thier midpoints
 % Modified from the snippet code written by N.Hutchins for MCEN90018 
 
-function I = vortex_panel_strength_2_0( Xi, Yi, Xj, Yj)
+function [I,Phi_i] = vortex_panel_strength_2_0( Xi, Yi, Xj, Yj)
 
 Xmi=0.5*(Xi(2)+Xi(1)); % midpoint of panel i
 Ymi=0.5*(Yi(2)+Yi(1));

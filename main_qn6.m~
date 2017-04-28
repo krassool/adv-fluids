@@ -17,10 +17,10 @@ n_pan       = 8   % = length(panels);                       % Number of panels
 panels      = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I           = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
 
-% Yinew2 = panels(:,4) ; Yinew1 = panels(:,2);
-% Xinew2 = panels(:,3) ; Xinew1 = panels(:,1); 
-% 
-% Phi_i_old = atan2((Yinew2 -Yinew1) , (Xinew2 - Xinew1)) % Phi_i (eqn 24) 
+Yinew2 = panels(:,4) ; Yinew1 = panels(:,2);
+Xinew2 = panels(:,3) ; Xinew1 = panels(:,1); 
+
+Phi_i = atan2((Yinew2 -Yinew1),(Xinew2 - Xinew1)) % Phi_i (eqn 24) 
 
 % Calculate influence
 for m = 1 : n_pan  % Loop throught each panel
@@ -32,7 +32,7 @@ for m = 1 : n_pan  % Loop throught each panel
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel j in x and y
         Yj=[panels(k,2),panels(k,4)];
         
-        [I(m,k), Phi_i(m)] = vortex_panel_strength_2_0(Xi, Yi, Xj, Yj); % Find coeff
+        I(m,k) = vortex_panel_strength_2_0(Xi, Yi, Xj, Yj); % Find coeff
     end
 end
 
@@ -46,20 +46,8 @@ I_con=[I;I_append];
 V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
 V_inf_i_con = [ V_inf_i ; 1] ;
 % gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
-% I_circshift = circshift(gam,-4,1)
 gam         = I\V_inf_i       % Solve for source strength densities (q)
-% new_order = flip(floor(n_pan/2)+1:end)
 
-% gam = [
-%          -0.70
-%           0.46
-%           1.36
-%           1.45
-%          -1.45
-%          -1.36
-%          -0.46
-%           0.70 
-% ]
 % gam=gam/n_pan;
 %% Find veloctities
 tic
@@ -142,7 +130,4 @@ for l=1:n_pan
     
     strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
     text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
-    
-    strmin = ['n pan =',num2str(l)];
-    text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
 end

@@ -10,10 +10,10 @@ function all_panels = n_panel_circle(n)
 t = linspace(0,2*pi,n+1);
 % x = cos(t+pi/n);
 % y = sin(t+pi/n);
-x = cos(t+pi);
-y = sin(t+pi);
+x = cos(t+pi/n);
+y = sin(t+pi/n);
 
-panels= [x.',y.'];
+panels= [x.',y.']
 new_order = circshift(flip(1:n),floor(n/2)+1,2);
 new_panels = panels(new_order,:);
 all_panels = zeros(n,4);
@@ -26,7 +26,7 @@ for i=1:n
         all_panels(i,:) = [new_panels(i,:),new_panels(i+1,:)];
     end
 end
-
+% 
 % figure ; hold on ; axis([-1 1 -1 1])
 % for i=1:n
 %    Xj = [all_panels(i,1),all_panels(i,3)]

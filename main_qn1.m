@@ -9,7 +9,7 @@ clc , clear , close all %, format bank
 
 %% Create the panels and find the influsence co-efficients 
 U_inf  = 1 ;
-n_pan  = 4 ; % Number of panels to use
+n_pan  = 8 ; % Number of panels to use
 panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
 I=(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
 
@@ -30,7 +30,7 @@ end
 
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 
-V_inf_i = -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
+V_inf_i = -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
 q = I\V_inf_i                      % Solve for source strength densities (q)
 
 %% Find veloctities
@@ -82,8 +82,8 @@ Yi=[panels(:,2),panels(:,4)];
 
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
-pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap gray
-% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
+pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
+fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
 plot(xr.', yr.', 'b') ;
@@ -96,3 +96,21 @@ xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ;
 caxis([0 5]);
 legend('Streamlines')    ;
 title('Qn1 : Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
+
+for l=1:n_pan
+    
+    Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
+    Yj=[panels(l,2),panels(l,4)];
+    Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
+    Ymj = 0.5*(Yj(1) + Yj(2));
+
+    hold on
+    strmin = ['gam = ',num2str(q(l))];
+    text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
+    
+    strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
+    text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
+    
+    strmin = ['n pan =',num2str(l)];
+    text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
+end

@@ -1,18 +1,22 @@
 % Test Vortex Panel Script:
+
 clc, clear, close all
 
-n_el    = 2 
+n_el    = 1 
 panel_x = linspace(-4,4,n_el+1)
 panel_y = zeros(1,length(panel_x))
 
+new_panels = [ panel_x.' , panel_y.' ]
 n = length(panel_x)
 
 % Create end-points
+all_panels = zeros(n,4)
+
 for i=1:n
     if i==n % at the end, replace with the first ones
-        all_panels(i,:) = [new_panels(i,:),new_panels(1,:)];
+        all_panels(i,:) = [new_panels(i,:),new_panels(1,:)]
     else
-        all_panels(i,:) = [new_panels(i,:),new_panels(i+1,:)];
+        all_panels(i,:) = [new_panels(i,:),new_panels(i+1,:)]
     end
 end
 
