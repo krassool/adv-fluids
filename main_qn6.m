@@ -32,21 +32,22 @@ for m = 1 : n_pan  % Loop throught each panel
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
         Yj=[panels(k,2),panels(k,4)];
         
-        I(m,k) = vortex_panel_strength_1_0(Xi, Yi, Xj, Yj); % Find coeff
+        I(m,k) = vortex_panel_strength_3_0(Xi, Yi, Xj, Yj); % Find coeff
     end
 end
 
-I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
+% I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
+
+% Include the kutta condition
 I_append=zeros(1,size(I,1));
 I_append(1)=1; I_append(end)=1;
-
 I_con=[I;I_append];
 
 V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
 V_inf_i_con = [ V_inf_i ; 1] ;
-% gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
+gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
+% gam         = I\V_inf_i       % Solve for source strength densities (q)
 
-gam         = I\V_inf_i       % Solve for source strength densities (q)
 % gam=gam/n_pan;
 %% Find veloctities
 tic
@@ -98,14 +99,14 @@ Yi=[panels(:,2),panels(:,4)];
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
 pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
-% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
-plot(xr.', yr.', 'b') ;
+plot(xr.', yr.', 'r') ;
 % Indicate streamline direction and magnitude
 quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
 
 % Label plot and add features accordingly
+% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
 caxis([0 5]);

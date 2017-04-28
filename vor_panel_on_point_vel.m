@@ -1,6 +1,6 @@
 function [u,v] = vor_panel_on_point_vel(Xj,Yj,gam,xp,yp)
-%this is changed from the first half of the assignment. This function uses
-%a vortex panel to determine the effect on the point velocities in space.
+% this is changed from the first half of the assignment. This function uses
+% a vortex panel to determine the effect on the point velocities in space.
 
 Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
 Ymj = 0.5*(Yj(1) + Yj(2));

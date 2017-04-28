@@ -11,7 +11,7 @@ U_inf  = 1  ;
 % I      =(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence
 
 % Create airfoil panels using jowkowski
-aoa_degrees = 10 ;                                   % Angle of attack in degrees
+aoa_degrees = 00 ;                                   % Angle of attack in degrees
 panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels
 n_pan       = length(panels);                       % Number of panels
 % n_pan       = 5;
@@ -82,10 +82,15 @@ pi=4. * atan(1.0);
    t2 = y(i+1)-y(i);
    ds(i) = sqrt(t1*t1+t2*t2);
  end
+ 
 for j = 1:n
  a(j,n+1) = 1.0;
  for i = 1:n
    if i == j
+	 
+     fprintf('This is Ds : %f \n',ds(i))
+     fprintf('This is the log bit of Ds : %f \n',(log(0.5*ds(i)) - 1.0) )
+     
      a(i,i) = ds(i)/(2.*pi) *(log(0.5*ds(i)) - 1.0);
    else
      xm1 = 0.5 * (x(j)+x(j+1));
@@ -125,7 +130,7 @@ gamma = zeros(n+1,1);
 %
 gamma = a\rhs;
 
-I_matrix=a;
+I_matrix=a
 V_inf_matrix=rhs;
 
 cp=zeros(n,1);

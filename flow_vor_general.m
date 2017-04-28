@@ -26,7 +26,6 @@ end
 function state_derivative = get_velocities( state , gam , panels , u_inf)
 
 x = state(1) ; y = state(2); % Previous state definition
-
 [u,v] = deal(0); % pre-allocate velocity contributions
 
 for n_panel  = 1:length(panels) % For each panel, find the effective strength at the point
