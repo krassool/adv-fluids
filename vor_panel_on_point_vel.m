@@ -22,7 +22,7 @@ uprime = gam/(2*pi).*( atan((x0p-b)./y0p) - atan((x0p-a)./y0p)) ;
 vprime = -gam/(2*pi).*( log((x0p-b).^2+y0p.^2)/2 - log((x0p-a).^2+y0p.^2)/2 ) ;
 
 % equations (21) and (22)
-f=-pi/2;
+f=0;
 v = vprime.*cos(Phi+f) + uprime.*sin(Phi+f);
 u = uprime.*cos(Phi+f) - vprime.*sin(Phi+f);
 end

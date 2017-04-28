@@ -5,20 +5,21 @@
 %
 % Estimates the flow field around an 'n' panel cylinder
 %% Clear MATLAB environment, set format
- clear , close all %, format bank 
+clear , close all %, format bank
 
-%% Create the panels and find the influsence co-efficients 
- U_inf  = 1  ;
+%% Create the panels and find the influsence co-efficients
+U_inf  = 1  ;
 % n_pan  = 64 ; % Number of panels to use
 % panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
-% I      =(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence 
+% I      =(zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ; % Initialise influence
 
-% Create airfoil panels using jowkowski 
-aoa_degrees = 0 ;                                   % Angle of attack in degrees
-% panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels 
-n_pan   = 6   % = length(panels);                       % Number of panels
-panels = n_panel_circle(n_pan) ;  % Define the number of approximation panels
-I = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence 
+% Create airfoil panels using jowkowski
+aoa_degrees = 10 ;                                   % Angle of attack in degrees
+panels      = jowkowski_function_5_0(aoa_degrees) ; % Create an airfoil in panels
+n_pan       = length(panels);                       % Number of panels
+% n_pan       = 5;
+% panels      = n_panel_circle(n_pan) ;  % Define the number of approximation panels
+I           = (zeros(n_pan,n_pan)) ; Phi_i=zeros(n_pan,1) ;   % Initialise influence
 
 
 % Calculate influence
@@ -26,9 +27,9 @@ for m = 1 : n_pan  % Loop throught each panel
     Xi  = [panels(m,1),panels(m,3)] ; % end?points of panel j in x and y
     Yi  = [panels(m,2),panels(m,4)] ;
     
-    Phi_i(m) = atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % Phi_i (eqn 24) 
+    Phi_i(m) = atan2((Yi(2) -Yi(1)),(Xi(2) - Xi(1))); % Phi_i (eqn 24)
     
-    for k=1 : n_pan   % Calculate the influence coeff on every other panel    
+    for k=1 : n_pan   % Calculate the influence coeff on every other panel
         Xj=[panels(k,1),panels(k,3)]; % Midpoints of panel i in x and y
         Yj=[panels(k,2),panels(k,4)];
         
@@ -38,21 +39,41 @@ end
 
 I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 I_append=zeros(1,size(I,1));
-I_append(1)=1; I_append(end)=1;
-
+I_append(1)=1; I_append(end)=0;
+fprintf('\nMean value of I: %f\n',mean(I(:)))
 I_con=[I;I_append];
 
-V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
+V_inf_i     =  -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
 V_inf_i_con = [ V_inf_i ; 1] ;
-% gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
+gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
 
-gam         = I\V_inf_i       % Solve for source strength densities (q)
-% gam=gam/n_pan;
+%gam         = I\V_inf_i ;      % Solve for source strength densities (q)
+gam=gam/n_pan;
+
+gam=[   -0.8900
+   -0.1147
+   -0.5641
+   -0.4171
+   -0.2466
+   -0.0215
+    0.3142
+    0.8916
+    2.1933
+    6.9874
+    8.2962
+    3.8125
+    2.5178
+    1.9133
+    1.5390
+    1.2719
+    1.0620
+    0.8900]
+
 %% Find veloctities
 tic
 mesh_res      = 0.01 ; % Meshgrid density (resolution for results)
-[xp, yp]      = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 ) ; 
-[u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
+[xp, yp]      = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 ) ;
+[u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions
 
 % This next loop runs through each of the panels and sums the velocity
 % contribution at each point in space as a result of the panels.
@@ -84,12 +105,12 @@ ic0  = [ -3*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
 xs = ic0(:,1) ;
 ys = ic0(:,2) ;
 
-% % Calculate streamlines in same fashion as fluids 
+% % Calculate streamlines in same fashion as fluids
 tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_vor_general , gam , panels, U_inf);
 time_streams = toc
 
 %% Plot results and make pretty
-close all 
+close all
 figure ; hold on ;
 
 Xi=[panels(:,1),panels(:,3)]; % endpoints of panel j in x and y
@@ -98,7 +119,7 @@ Yi=[panels(:,2),panels(:,4)];
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
 pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
-% fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
+fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
 plot(xr.', yr.', 'b') ;
@@ -107,11 +128,31 @@ quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h
 
 % Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
-xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
-caxis([0 5]);
+xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ;
+caxis([0 3]);
 legend('Streamlines')    ;
-title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
+title('Flow Over Vortex Panel Geometry (w.page, k.rassool) ') ;
 
 % Plot streamline direction and magnitude
 % quiver(xr(:,100), yr(:,100), xr(:,101)-xr(:,100), yr(:,101)-yr(:,100),.5)
-% quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+
+%% Plot text
+
+for l=1:n_pan
+    
+    Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
+    Yj=[panels(l,2),panels(l,4)];
+    Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
+    Ymj = 0.5*(Yj(1) + Yj(2));
+
+    hold on
+    strmin = ['gam = ',num2str(gam(l))];
+    text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
+    
+    strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
+    text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
+end
+
+    
+    
