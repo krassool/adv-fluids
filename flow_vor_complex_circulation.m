@@ -1,0 +1,50 @@
+% William Page (587000) - Kevin Rassool (xxxxxx) ;
+% Semester 2 2015 - University of Melbourne        ; Started:     21/4/17
+% MCEN90018 - Advanced Fluid Dynamics              ; Last Edited: 29/4/17
+% Assignment 2 : Panel Methods - 8 Panel Cylinder
+%
+% Streamline solver using RK4 and example_code_figure5 from N.Hutchins
+
+function [state] = flow_vor_complex_circulation(state0, h, n, gam , panels, u_inf)
+
+% Create space for new solution
+state = [state0,zeros(length(state0),n)] ;
+
+% Iterate over number of steps
+for i = 1:n
+    
+    % Determine RK4 parameters
+    k1 = get_velocities(state(:,i), gam , panels, u_inf);
+    k2 = get_velocities(state(:,i) + (h/2)*k1, gam , panels, u_inf);
+    k3 = get_velocities(state(:,i) + (h/2)*k2, gam , panels, u_inf);
+    k4 = get_velocities(state(:,i) +  h*k3   , gam , panels, u_inf);
+    
+    % Update RK4 estimate for next step
+    state(:,i+1) = state(:,i) + (h/6)*(k1+2*k2+2*k3+k4);
+end
+
+function state_derivative = get_velocities( state , gam , panels , u_inf)
+
+x = state(1) ; y = state(2); % Previous state definition
+
+aoa=10; %degrees
+alpha   =aoa/180*pi; %angle of attack in radians
+a   =  1       ;
+c   =  0.95    ;
+x_s =  -0.04875 ;
+y_s =    0.05*1i ;
+n_steps=64     ;
+U_inf       = 1;
+
+
+z       = x + 1i.*y;
+Tau = -4*pi*U_inf*a*sin(asin(y_s/a)+alpha);
+dwdz_circul = (-1i*Tau)./(2*pi*(z) );
+dwdz_cyl    = -a.^2*U_inf./(z.^2);
+dwdz=dwdz_cyl + dwdz_circul + U_inf;
+
+u =  real(dwdz);
+v = -imag(dwdz);
+
+
+state_derivative = [u ; v]; 

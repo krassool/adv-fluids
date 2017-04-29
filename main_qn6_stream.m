@@ -66,7 +66,7 @@ gam=gamma;
 %% Find veloctities
 tic
 mesh_res      = 0.01 ; % Meshgrid density (resolution for results)
-xtent = 4    ; % X position starting the analysis
+xtent = 6    ; % X position starting the analysis
 [xp, yp]      = meshgrid( -xtent:mesh_res:xtent , -2:mesh_res:2 ) ; 
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
 

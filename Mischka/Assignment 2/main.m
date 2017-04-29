@@ -252,6 +252,10 @@ z = x +1i.*y;
 dwdz = -a.^2*U_inf./(z.^2)+U_inf+1i*Gamma./(2*pi.*z);
 u =  real(dwdz);
 v = -imag(dwdz);
+figure;
+pcolor(x, y, real(sqrt(u.^2+v.^2))) ; shading flat ; colormap jet
+
+%%
 
 % -- Find streamlines for flow over cylinder and use Jowkowski transform to
 %    get back to flow over airfoil.
