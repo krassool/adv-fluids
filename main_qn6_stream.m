@@ -38,24 +38,16 @@ I(eye(size(I))~=0) = 0.5;  % Where i==j hard code 0.5 strength (using logicals)
 I_append=zeros(1,size(I,1));
 I_append(1)=1; I_append(end)=1;
 I_con=[I;I_append];
+%modify the I matrix for streamfunctions
+stream_append=ones(1,size(I_con,1));
+stream_append(end)=0;
+I_stream=[I_con,stream_append'];
 
-V_inf_i     =  -U_inf*sin(2*pi-Phi_i) % find V_inf, flowing from left to right
-V_inf_i_con = [ V_inf_i ; 1] ;
+V_inf_i     =  -U_inf*sin(2*pi-Phi_i); % find V_inf, flowing from left to right
+V_inf_i_con = [ V_inf_i ; 0] ;
 % gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
-gam         = I\V_inf_i       % Solve for source strength densities (q)
-% new_order = flip(floor(n_pan/2)+1:end)
+gam         = I_stream\V_inf_i_con  ;     % Solve for source strength densities (q)
 
-% gam = [
-%          -0.70
-%           0.46
-%           1.36
-%           1.45
-%          -1.45
-%          -1.36
-%          -0.46
-%           0.70 
-% ]
-% gam=gam/n_pan;
 %% Find veloctities
 tic
 mesh_res      = 0.01 ; % Meshgrid density (resolution for results)
