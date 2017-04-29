@@ -6,7 +6,7 @@
 % Calculates the influence coefficients given thier midpoints
 % Modified from the snippet code written by N.Hutchins for MCEN90018 
 
-function [I,Phi_i] = vortex_panel_strength_2_0( Xi, Yi, Xj, Yj)
+function [psi_i,Phi_i] = vortex_panel_strength_2_0( Xi, Yi, Xj, Yj)
 
 Xmi=0.5*(Xi(2)+Xi(1)); % midpoint of panel i
 Ymi=0.5*(Yi(2)+Yi(1));
@@ -31,16 +31,10 @@ y0p = rij.*sin(omega); % (eqn 28)
 S = sqrt((Xj(2) - Xj(1)).^2 + (Yj(2) - Yj(1)).^2);
 a =-S/2; b =S/2; %(eqn 11)
 
-% you =   
-% vee = 
+psi_i = (1./(2.*pi)).*((((x0p-b)./2).*log((x0p-b).^2 + y0p.^2) + ...
+    y0p.*atan((x0p-b)./y0p) + b) - ...
+    (((x0p-a)./2).*log((x0p-a).^2+y0p.^2) + ...
+    y0p.*atan((x0p-a)./y0p) + a));
 
 
-psi_i= 
-uj =   1/(2*pi).*( atan((x0p-b)./2) - atan((x0p-a)./y0p))  
 
-;
-vj =  -1/(2*pi).*( log((x0p-b).^2+y0p.^2)/2 - log((x0p-a).^2+y0p.^2)/2 ) ;
-
-vi = uj.*sin(Phi_j-Phi_i)+vj.*cos(Phi_j-Phi_i); % eqn(31) %transofrm back to intertial coord sys
-
-I = vi; % we do this as we set q2 to unity for now.
