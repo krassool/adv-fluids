@@ -48,10 +48,26 @@ V_inf_i_con = [ V_inf_i ; 0] ;
 % gam         = I_con\V_inf_i_con       % Solve for source strength densities (q)
 gam         = I_stream\V_inf_i_con  ;     % Solve for source strength densities (q)
 
+
+
+%% Alternative Gamma
+   x = panels(:,1);
+   y = panels(:,2);
+   
+   x_append=x(1);
+   y_append=y(1);
+   
+   x=[x;x_append];
+   y=[y;y_append];
+   
+gamma = get_vortex_strengths(x, y, U_inf, 0);
+
+gam=gamma;
 %% Find veloctities
 tic
 mesh_res      = 0.01 ; % Meshgrid density (resolution for results)
-[xp, yp]      = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 ) ; 
+xtent = 4    ; % X position starting the analysis
+[xp, yp]      = meshgrid( -xtent:mesh_res:xtent , -2:mesh_res:2 ) ; 
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
 
 % This next loop runs through each of the panels and sums the velocity
@@ -74,11 +90,11 @@ time_pattern = toc
 
 % Set up simulation conditions
 t0   = 0     ; % Initial time
-tf   = 6     ; % Final time
+tf   = 15     ; % Final time
 h    = 0.01  ; % Step size
 
 y_range = (-2:.25:2).'; % Range over which to seen line for flow definition
-ic0  = [ -3*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
+ic0  = [ -xtent*ones(length(y_range),1) , y_range ]; % % Initial condition matrix
 
 % Initial conditions for streamlines
 xs = ic0(:,1) ;
@@ -106,9 +122,9 @@ quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h
 
 % Label plot and add features accordingly
 fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
-axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
+axis equal  ; axis([-xtent xtent -2 2]) ; units = colorbar ;
 xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
-caxis([0 5]);
+caxis([0 2]);
 legend('Streamlines')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 
@@ -125,11 +141,11 @@ title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 % 
 %     hold on
 %     strmin = ['gam = ',num2str(gam(l))];
-%     text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
+%     text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center','fontname','Castellar');
 %     
 %     strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
-%     text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
+%     text(Xmj,Ymj,strmin,'HorizontalAlignment','center','fontname','Castellar');
 %     
-%     strmin = ['n pan =',num2str(l)];
-%     text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
+% %     strmin = ['n pan =',num2str(l)];
+% %     text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center','fontname','Castellar');
 % end
