@@ -35,8 +35,8 @@ q = I\V_inf_i                      % Solve for source strength densities (q)
 
 %% Find veloctities
 tic
-mesh_res = 0.01 ; % Meshgrid density (resolution for results)
-[xp, yp] = meshgrid( -2:mesh_res:2 , -2:mesh_res:2 );
+mesh_res = 0.02 ; % Meshgrid density (resolution for results)
+[xp, yp] = meshgrid( -3:mesh_res:3 , -2.5:mesh_res:2.5 );
 [u_hat,v_hat] = deal(zeros(size(xp))) ; % Initialise cartesian velocity directions 
 
 % This next loop runs through each of the panels and sums the velocity
@@ -59,7 +59,7 @@ time_pattern = toc
 
 % Set up simulation conditions
 t0   = 0     ; % Initial time
-tf   = 6     ; % Final time
+tf   = 10    ; % Final time
 h    = 0.01  ; % Step size
 
 y_range = (-2:.25:2).'; % Range over which to seen line for flow definition
@@ -82,35 +82,34 @@ Yi=[panels(:,2),panels(:,4)];
 
 % Plot approximated cylinder with velocity field
 plot(Xi, Yi, 'b-', 'LineWidth', 2.5) ; % Plot approximated cylinder
-pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading flat ; colormap jet
+pcolor(xp, yp, real(sqrt(u_hat_inf.^2+v_hat.^2))) ; shading interp ; colormap jet
 fill(panels(:,1),panels(:,2),[255 105 180]./256) ; % HOT PINK cylinder
 
 % Create stream-lines
-plot(xr.', yr.', 'b') ;
+plot(xr.', yr.', 'k') ;
 % Plot streamline direction and magnitude
-quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , 0.5 , 1 , 'm/s' , 'k')
+quivers(xr(:,100), yr(:,100), (xr(:,101)-xr(:,100))./h, (yr(:,101)-yr(:,100))./h , ...
+    0.5 , 2 , 'm/s' , 'k')
 
 % Label plot and add features accordingly
-axis equal  ; axis([-2 2 -2 2]) ; units = colorbar ;
-xlabel(units,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
-caxis([0 5]);
-legend('Streamlines')    ;
+axis equal; units = colorbar; xlabel('x (m)'); xlabel(units,'m / s');
+axis([-3 3 -2.5 2.5]); ylabel('y (m)'); caxis([0 2]); legend('Streamlines');
 title('Qn1 : Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 
-for l=1:n_pan
-    
-    Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
-    Yj=[panels(l,2),panels(l,4)];
-    Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
-    Ymj = 0.5*(Yj(1) + Yj(2));
-
-    hold on
-    strmin = ['gam = ',num2str(q(l))];
-    text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
-    
-    strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
-    text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
-    
-    strmin = ['n pan =',num2str(l)];
-    text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
-end
+%%  for l=1:n_pan
+%     
+%     Xj=[panels(l,1),panels(l,3)]; % Midpoints of panel i in x and y
+%     Yj=[panels(l,2),panels(l,4)];
+%     Xmj = 0.5*(Xj(1) + Xj(2)); % midpoints
+%     Ymj = 0.5*(Yj(1) + Yj(2));
+% 
+%     hold on
+%     strmin = ['gam = ',num2str(q(l))];
+%     text(Xmj,Ymj+0.17,strmin,'HorizontalAlignment','center');
+%     
+%     strmin = ['phi = ',num2str(Phi_i(l)/pi*180)];
+%     text(Xmj,Ymj,strmin,'HorizontalAlignment','center');
+%     
+%     strmin = ['n pan =',num2str(l)];
+%     text(Xmj,Ymj-0.17,strmin,'HorizontalAlignment','center');
+% end

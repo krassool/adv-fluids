@@ -45,8 +45,8 @@ q = I\V_inf_i % Solve for source strength densities (q)
 tic
 
 %midpoint matrix
-r_mid=1.001;
-panels_points = n_panel_circle_soft(n_pan,r_mid) 
+r_mid=1.001 ;
+panels_points = n_panel_circle(n_pan) 
 Xmj=0.5*(panels_points(:,1)+panels_points(:,3))
 Ymj=0.5*(panels_points(:,2)+panels_points(:,4)) 
 
@@ -80,7 +80,7 @@ time_pattern = toc
 
 %this is in XXX coordainate frame.
 U_c_u=u_hat_surf + U_inf;
-U_c_v=v_hat_surf;% + V_inf_i ;
+U_c_v=v_hat_surf ; % + V_inf_i ;
 U_c=sqrt(U_c_u.^2+U_c_v.^2);
 %Cp opbtained from panel methods
 Cp=1-(U_c/U_inf).^2;
@@ -88,10 +88,8 @@ Cp=1-(U_c/U_inf).^2;
 th = 0:2*pi/n_pan:2*pi;
 Cp_th=(1-4*sin(th).^2).';
 
-figure
-hold on
-plot(Cp_th,'r*')
-plot(Cp,'bx')
+figure(1)
+hold on ; plot(Cp_th,'r*') ; plot(Cp,'bx'); hold off
 
 
 % Cp_matrix=[Cp Cp_th];
@@ -114,7 +112,7 @@ tic ; [xr, yr] = approx_streamline2(xs, ys, tf-t0, h, @flow_general , q , panels
 [xr_s, yr_s] = approx_streamline2(xs, ys, tf-t0, h, @flow_general_streamline , k_val , panels, U_inf);
 time_streams = toc
 %% Plot results and make pretty
-close all 
+% close all 
 figure ; hold on ;
 
 Xi=[panels(:,1),panels(:,3)]; % endpoints of panel j in x and y
@@ -134,7 +132,7 @@ plot(xr_s.', yr_s.', 'r') ;
 % Label plot and add features accordingly
 axis equal  ; axis([-2 2 -2 2]) ;  h = colorbar ;
 xlabel(h,'m per s') ; xlabel('x (m)') ; ylabel('y (m)') ; 
-legend('Streamlines')    ;
+legend('Streamlines','2nd data','3rd data','4thdata','5th data','6','7','8','9','10')    ;
 title('Flow over and 8 Panel Cylinder (w.page, k.rassool) ') ;
 % quivers(xr(:,100), yr(:,100), ((xr(:,101)-xr(:,100))/h), ((yr(:,101)-yr(:,100))/h) ... 
 %     ,0.5,1,'m/s','k');
